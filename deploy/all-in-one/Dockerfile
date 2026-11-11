@@ -74,7 +74,8 @@ ENV PYTHONUNBUFFERED=1 \
 # nginx serves the frontend and proxies /api -> uvicorn on :8000
 RUN apt-get update && apt-get install -y --no-install-recommends \
         nginx libgl1 libglib2.0-0 libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /etc/nginx/sites-enabled/default
 
 WORKDIR /app/backend
 COPY --from=backend /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
