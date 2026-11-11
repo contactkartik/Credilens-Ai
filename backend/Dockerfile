@@ -30,6 +30,15 @@ WORKDIR /app/backend
 # requirements.txt then sees torch as already satisfied.
 RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
 
+# paddlepaddle publishes aarch64 (ARM64, e.g. Oracle Cloud Ampere) wheels only
+# on Paddle's own index, not PyPI. Install it first on ARM builds so
+# requirements.txt sees it as already satisfied; x86_64 uses PyPI as usual.
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        pip install "paddlepaddle>=3.0" \
+            --index-url https://www.paddlepaddle.org.cn/packages/stable/cpu/ ; \
+    fi
+
 COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
 
