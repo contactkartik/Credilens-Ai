@@ -1,0 +1,7 @@
+This is a sample text file for testing text extraction.
+
+The CrediLens AI project aims to detect information credibility using NLP and machine learning techniques.
+
+This sample text contains multiple paragraphs to test the extraction functionality.
+
+End of sample text file.

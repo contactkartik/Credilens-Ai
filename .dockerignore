@@ -1,0 +1,19 @@
+# Keep the backend build context small (context = repo root)
+models/
+data/
+outputs/
+notebooks/
+docs/
+scripts/
+tests/
+frontend/
+.git/
+.vscode/
+.env
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/venv/
+**/.venv/
+**/node_modules/
+*.log

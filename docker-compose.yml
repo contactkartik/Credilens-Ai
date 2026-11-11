@@ -1,0 +1,62 @@
+# CrediLens AI - run the whole stack with:   docker compose up --build
+#   Frontend: http://localhost:3000
+#   Backend:  http://localhost:8000/docs
+services:
+  backend:
+    build:
+      context: .                     # repo root (needs ml/ + models/)
+      dockerfile: backend/Dockerfile
+    container_name: credilens-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: "False"
+      ROBERTA_MODEL_PATH: models/roberta
+      DATABASE_URL: postgresql+psycopg://credilens:credilens@db:5432/credilens
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Trained RoBERTa model (gitignored, ~475 MB) - mounted read-only
+      - ./models:/app/models:ro
+      # Cache PaddleOCR's downloaded models so they persist across restarts
+      - paddle_cache:/root/.paddlex
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s            # model loading takes 1-2 minutes
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: credilens-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: credilens-db
+    environment:
+      POSTGRES_USER: credilens
+      POSTGRES_PASSWORD: credilens
+      POSTGRES_DB: credilens
+    ports:
+      - "5432:5432"          # optional: remove to keep Postgres internal-only
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U credilens -d credilens"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  paddle_cache:
+  pgdata:

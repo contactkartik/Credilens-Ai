@@ -1,0 +1,16 @@
+{
+  "confusion_matrix": [
+    [
+      225,
+      327
+    ],
+    [
+      167,
+      547
+    ]
+  ],
+  "labels": [
+    "false_side",
+    "true_side"
+  ]
+}

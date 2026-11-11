@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   CrediLens AI — design system
+   A premium editorial palette: warm ivory paper, deep burgundy accents,
+   hairline rules and a serif/sans type pairing. All values live here so the
+   UI components stay readable and the look stays consistent (good for viva).
+--------------------------------------------------------------------------- */
+@theme {
+  /* Typography ------------------------------------------------------------- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+
+  /* Paper ------------------------------------------------------------------ */
+  --color-ivory: #faf7f0; /* page background */
+  --color-ivory-deep: #f2ece1; /* inset fields, bar tracks */
+  --color-paper: #ffffff; /* cards */
+
+  /* Ink (text) ------------------------------------------------------------- */
+  --color-ink: #17130f; /* headings */
+  --color-ink-soft: #4b443c; /* body copy */
+  --color-ink-faint: #8a8177; /* meta / captions */
+
+  /* Hairlines -------------------------------------------------------------- */
+  --color-rule: #e7e0d3; /* card + section borders */
+  --color-rule-strong: #d5cbbb; /* input borders, inactive bars */
+
+  /* Burgundy accents ------------------------------------------------------- */
+  --color-burgundy: #7a1e2b;
+  --color-burgundy-deep: #5b1521;
+  --color-burgundy-tint: #f6ebec; /* focus rings, soft fills */
+  --color-burgundy-line: #e9d3d5; /* hairline accent */
+
+  /* Single secondary accent, used only for the "credible" state ------------ */
+  --color-forest: #2f5d4b;
+
+  /* Shadows (restrained, editorial) ---------------------------------------- */
+  --shadow-card: 0 1px 2px rgba(23, 19, 15, 0.04),
+    0 18px 36px -28px rgba(23, 19, 15, 0.45);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-burgundy);
+    color: var(--color-ivory);
+  }
+}
+
+@layer components {
+  /* Small-caps, letterspaced label used above headings, cards and meta rows */
+  .eyebrow {
+    font-size: 0.6875rem;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* White paper card on ivory: hairline border + one subtle shadow */
+  .paper-card {
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-card);
+  }
+}
+
