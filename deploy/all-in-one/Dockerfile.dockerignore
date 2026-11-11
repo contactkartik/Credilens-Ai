@@ -1,0 +1,21 @@
+# Build context for deploy/all-in-one/Dockerfile.
+# The root .dockerignore excludes frontend/ and models/ (it was written for
+# the backend-only image); this file re-includes what the all-in-one build
+# needs while still keeping node_modules, dist and the 4.2 GB training
+# checkpoint out of the context.
+**
+!backend
+!backend/**
+!frontend
+!frontend/**
+!ml
+!ml/**
+!deploy
+!deploy/**
+!models
+!models/roberta
+models/roberta/checkpoint
+frontend/node_modules
+frontend/dist
+**/__pycache__
+**/*.pyc
