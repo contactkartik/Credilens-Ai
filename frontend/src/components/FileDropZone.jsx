@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react'
 import { FileText, Upload, X } from 'lucide-react'
+import { isHFMode } from '../api/hf.js'
 
-const ACCEPTED_FORMATS = '.txt,.pdf,.docx,.png,.jpg,.jpeg'
+// Hosted (HF Inference) mode has no backend OCR, so images are excluded.
+const ACCEPTED_FORMATS = isHFMode()
+  ? '.txt,.pdf,.docx'
+  : '.txt,.pdf,.docx,.png,.jpg,.jpeg'
 
 /**
  * File upload card (drag & drop) styled as part of the editorial system:
@@ -90,7 +94,9 @@ export default function FileDropZone({ file, onFileChange }) {
         </span>
       </p>
       <p className="eyebrow mt-2.5 text-[10px] text-ink-faint">
-        TXT &middot; PDF &middot; DOCX &middot; PNG / JPG (screenshots)
+        {isHFMode()
+          ? 'TXT \u00b7 PDF \u00b7 DOCX'
+          : 'TXT \u00b7 PDF \u00b7 DOCX \u00b7 PNG / JPG (screenshots)'}
       </p>
 
       <input

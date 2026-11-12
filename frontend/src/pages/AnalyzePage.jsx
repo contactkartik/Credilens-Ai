@@ -9,6 +9,7 @@ import {
   Type,
   X,
 } from 'lucide-react'
+import { isHFMode } from '../api/hf.js'
 import { predictFile, predictText } from '../api/predictions.js'
 import AppHeader from '../components/AppHeader.jsx'
 import FileDropZone from '../components/FileDropZone.jsx'
@@ -208,7 +209,9 @@ export default function AnalyzePage() {
                   />
                 </div>
                 <p className="mt-3 text-xs leading-5 text-ink-faint">
-                  Text inside images is read automatically (OCR).
+                  {isHFMode()
+                    ? 'Text is extracted in your browser before analysis.'
+                    : 'Text inside images is read automatically (OCR).'}
                 </p>
               </div>
             )}
